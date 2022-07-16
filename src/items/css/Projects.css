@@ -36,10 +36,11 @@ div.projects{
             height: 30px;
             border-radius: 5px;
 
-            transition: 0.3s;
+            z-index: 3;
+            transition: 0.5s;
         }
 
-            div.projects div.title .add svg path{
+            div.projects div.title .add svg.addLogo path{
                 fill: #e8e8e8;
                 transition: 0.3s;
             }
@@ -50,20 +51,28 @@ div.projects{
                 transform: scale(1.2);
                 transition: 0.3s;
             }
-            div.projects div.title .add:hover svg path{
+            div.projects div.title .add:hover svg.addLogo path{
                 fill:#7f7f7f;
                 transition: 0.3s;
             }
+    div.projects div.scroller{
+        overflow-y: scroll;
+        overflow-x: hidden;
+        direction: rtl;
+        height: 60vh;
 
+        padding-right: 250px;
+        margin-right: -250px;
+    }
     div.projects div.list{
         display: flex;
         flex-direction: column;
-
+        direction: ltr;
     }
     div.projects div.list div.Project{
         display: grid;
         grid-template-areas: "box title date";
-        grid-template-columns: 50px auto 34px;
+        grid-template-columns: 50px auto 32px;
         width: 80%;
         height: 50px;
         margin: auto;
@@ -72,7 +81,7 @@ div.projects{
         background-color: #7f7f7f;
         border-radius: 5px;
         overflow: hidden;
-
+        z-index: 2;
         transition: 0.5s;
     }   
 
@@ -141,7 +150,6 @@ div.projects{
 
         ::-webkit-scrollbar {
             width: 5px;
-            
           }
           
           /* Track */
@@ -159,3 +167,89 @@ div.projects{
           ::-webkit-scrollbar-thumb:hover {
             background: #e7e7e7; 
           }
+
+
+/*Form add project*/
+input#add{
+    display: none;
+}
+
+    input#add:checked ~ label.add svg.addLogo{
+        display: none;
+
+        transition: 0.5s;
+    }
+        input#add:checked ~ label.add {
+
+            transform: scale(100);
+            background-color: #7f7f7f;
+            opacity: 0.6;
+            transition: 0.7s;
+        }
+
+
+.newProjContainer{
+    position: absolute;
+    width: 450px;
+    height: 450px;
+    display: flex;
+    left:-450px;
+    top:-450px;
+    background-color: #282828;
+    border-radius: 20px;
+    z-index: 4;
+    transform: scale(0);
+    transition: 0.5s;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+    input#add:checked ~ .newProjContainer{
+        left:calc(50vw - 225px);
+        top:calc(50vh - 225px);
+        transform: scale(1);
+        transition: 1s;
+    }
+    input#burger:checked ~ nav div.projects div.title div.newProjContainer div.title{
+        height: min-content;
+    }
+    .newProjContainer .title{
+        font-size: 30px;
+        font-weight: bold;
+        height: min-content;
+        color: #e8e8e8;
+
+        margin-bottom: 10px;
+    }
+    .newProjContainer .newProj{
+        display: flex;
+        justify-self: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .newProjContainer .newProj input,.newProjContainer .newProj textarea{
+        margin: 10px;
+        outline: none;
+        background-color: #e7e7e7;
+        border: none;
+        color: #141414;
+        border-radius: 10px;
+        font-size: 18px;
+    }
+    .newProjContainer .newProj input{
+        font-weight: bold;
+        height: 30px;
+        font-size: 22px;
+    }
+    .newProjContainer .newProj #newPrjErreur{
+        color: rgb(255, 133, 179);
+        padding: 3px;
+        transition: 0.5s;
+    }
+    
+    .newProjContainer .control{
+        padding-top:20px;
+    }

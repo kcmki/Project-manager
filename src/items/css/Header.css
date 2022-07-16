@@ -1,0 +1,79 @@
+div.taches{
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+
+    transition: 0.5s;
+}
+input#burger:checked ~ #container .taches{
+    padding-left: 40px;
+
+    transition: 0.5s;
+}
+    div.taches .title{
+        font-size: 22px;
+        font-weight: bold;
+        height: min-content;
+        color: #e8e8e8;
+    }
+    div.taches .scroll{
+        width: calc(100vw - 390px);
+        overflow-x: scroll;
+        overflow-y: hidden;
+    }
+
+    input#burger:checked ~ #container .taches .scroll{
+        width: calc(100vw - 160px);
+
+        transition: 0.5s;
+    }
+        div.taches .scroll .tasksContainer{
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+            width: min-content;
+        }
+
+            div.taches .scroll .tasksContainer div.tache{
+                margin: 10px;
+
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center;
+
+                overflow: hidden;
+                border-radius: 20px;
+                height: 140px;
+                width: 180px;
+                background-color: #7f7f7f;
+            }
+
+            div.tache .top{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 180px;
+                height: 50px;
+                margin:0px;
+            }
+                div.tache .top .projet{
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    border-radius: 0px 0px 20px 0px;
+                    width: 70px;
+                    height: 50px;
+                    background-color: #e8e8e8;
+                    color: #7f7f7f;
+                    font-weight: bold;
+                }
+                div.tache .top .right{
+                    width: 130px;
+                }
+                div.tache .desc{
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }

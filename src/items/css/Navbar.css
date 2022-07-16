@@ -3,7 +3,6 @@ nav{
     background-color: #282828;
     width: 350px;
     height: calc(100vh - 40px);
-    position: fixed;
 
     transition: 0.5s;
 }

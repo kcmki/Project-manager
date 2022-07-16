@@ -1,15 +1,21 @@
 import * as React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
+import "./items/css/index.css";
 
-import Navbar from "./Navbar";
-import Header from "./Header";
+import Navbar from "./items/Navbar";
+import Header from "./items/Header";
+import Content from "./items/Content";
 
 ReactDOM.render(
   <React.StrictMode>
 
     <Navbar />
-    <Header />
+
+    <div id="container">
+      <Header />
+      <Content />
+    </div>
+    
   </React.StrictMode>,
   document.getElementById("root")
 );

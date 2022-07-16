@@ -1,6 +1,6 @@
 import * as React from "react";
 import ReactDOM from "react-dom";
-import "./Navbar.css";
+import "./css/Navbar.css";
 import Projects from "./Projects";
 
 function Navbar(){
