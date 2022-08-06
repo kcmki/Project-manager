@@ -1,12 +1,12 @@
 
 import * as React from "react";
-
+import "./css/Content.css";
 
 function Content(){
 
     return(
         <div id="content">
-            Content
+            7aamss
         </div>
     )
 }

@@ -181,7 +181,7 @@ input#add{
     }
         input#add:checked ~ label.add {
 
-            transform: scale(100);
+            transform: scale(200);
             background-color: #7f7f7f;
             opacity: 0.6;
             transition: 0.7s;
