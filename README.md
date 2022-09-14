@@ -3,6 +3,8 @@
 This is a React project boostrapped with bun.
 
 ## Getting Started
+this is a project management app i made to learn React 
+
 
 ### Cloning the repo
 
