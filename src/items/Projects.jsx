@@ -1,9 +1,9 @@
 import * as React from "react";
 import {useRef, useEffect} from 'react';
-import ReactDOM from "react-dom";
+import { TailSpin } from "react-loader-spinner";
 import "./css/Projects.css";
 
-function Projects(){
+function Projects({setProject}){
 
     // get projects data
     const Tasks=[
@@ -11,52 +11,7 @@ function Projects(){
         key:1,
         title: 'titre',
         date: '22 22 1212',
-        Description: 'desc',},
-        {
-            key:2,
-            title: 'titre',
-            date: '22 22 1212',
-            Description: 'desc',},
-            {
-                key:3,
-                title: 'titre',
-                date: '22 22 1212',
-                Description: 'desc',},
-                {
-                    key:4,
-                    title: 'titre',
-                    date: '22 22 1212',
-                    Description: 'desc',},
-                    {
-                        key:5,
-                        title: 'titre',
-                        date: '22 22 1212',
-                        Description: 'desc',},
-                        {
-                            key:6,
-                            title: 'titre',
-                            date: '22 22 1212',
-                            Description: 'desc',},
-                            {
-                                key:7,
-                                title: 'titre',
-                                date: '22 22 1212',
-                                Description: 'desc',},
-                                {
-                                    key:8,
-                                    title: 'titre',
-                                    date: '22 22 1212',
-                                    Description: 'desc',},
-                                    {
-                                        key:9,
-                                        title: 'titre',
-                                        date: '22 22 1212',
-                                        Description: 'desc',},
-                                        {
-                                            key:10,
-                                            title: 'titre',
-                                            date: '22 22 1212',
-                                            Description: 'desc',}
+        Description: 'desc',}
         ]
 
     //set up mindate for input
@@ -119,16 +74,15 @@ function Projects(){
                         
                         <div className="control">
                             <button value="Add" onClick={addP}> Add </button>
-                            <label htmlFor="add" >X</label>
+                            <label htmlFor="add" ><img src="https://cdn-icons.flaticon.com/png/512/2976/premium/2976286.png?token=exp=1660740919~hmac=2c8032645ea167cbb037c1946f320716" alt="" /></label>
                         </div>
-
                     </div>
 
                 </div>
             </div>
             <div className="scroller">
                 <div className="list">
-                    <Project Tasks={Tasks}/>
+                    <Project Tasks={Tasks} setProject={setProject}/>
                 </div>
             </div>
 
@@ -137,24 +91,58 @@ function Projects(){
     )
 }
 
-function Project({Tasks}){
+async function fetchProjects(setProjects){
+    const response = await fetch('https://my-json-server.typicode.com/kcmki/ReactTodos/Projects')
+    if (!response.ok) {
+        const message = `An error has occured: ${response.status}`;
+        throw new Error(message);
+    }
+
+    const Projects = await response.json()
+    setProjects(Projects)
+}
+
+function Project({setProject}){
     var colors = ["#4700D8","#9900F0","#F900BF","#FF85B3","#5E11D4","#D164BD","#A343C6","#8C33CB","#7522CF"]
+    const [Projects,setProjects] = React.useState(null)
     
-
+    useEffect(() => {
+        if(Projects === null){
+            fetchProjects(setProjects).catch(error => {error.message})
+        }
+    }, [Projects])
+    
     //return componement
-    return (
-        <>
-        {
-        Tasks.map((task)=>(
-            <div className="Project" key={task.key}>
-                <div className="box" style={{backgroundColor: colors[Math.floor(Math.random()*colors.length)]}}> </div>
-                <div className="title">{task.title}</div>
-                <div className="deadline">{task.date}</div>
+    if(Projects === null ){
+        return (
+            <div className="loaderCentrer">
+                <TailSpin
+                height="80"
+                width="80"
+                color="#4fa94d"
+                ariaLabel="tail-spin-loading"
+                radius="1"
+                wrapperStyle={{}}
+                wrapperClass=""
+                visible={true}
+                />
             </div>
-        ))}
-        </>
+        )
+    }else{
+        return (
+            <>
+            {
+            Projects.map((task)=>(
+                <div className="Project" key={task.id} onClick={() => setProject(task.id)}>
+                    <div className="box" style={{backgroundColor: colors[task.id % colors.length]}}> </div>
+                    <div className="title">{task.title}</div>
+                    <div className="deadline">{task.id}</div>
+                </div>
+            ))}
+            </>
+        )
+    }
 
-    )
 }
 export default Projects
 

@@ -47,7 +47,7 @@ input#burger:checked ~ #container .taches{
                 align-items: center;
                 width: 180px;
             }
-                div.taches .scroll .tasksContainer div.tache:hover .taskinfo{
+                div.taches .scroll .tasksContainer div.tache .taskinfo:hover{
                     opacity: 0;
 
                     transition: 0.5s;

@@ -3,10 +3,8 @@ import ReactDOM from "react-dom";
 import "./css/Navbar.css";
 import Projects from "./Projects";
 
-function Navbar(){
-    function addButton(){
-        console.log("click")
-    }
+function Navbar({setProject}){
+
     return(
         <> 
             <input type="checkbox" name="Burger" id="burger" />
@@ -26,7 +24,7 @@ function Navbar(){
                 </label>
             </div>
             <span className="separator"></span>
-            <Projects />
+            <Projects setProject={setProject}/>
 
             </nav>
         </>
