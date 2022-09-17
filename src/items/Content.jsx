@@ -64,7 +64,7 @@ function LoaderCircle({loaded}){
     )                 
     }else{
         return (<div>
-            {loaded.map((item)=>(<div className="popupitems"> {item.id} </div>))}
+            {loaded.map((item)=>(<div className="popupitems" key={item.id}> {item.id} </div>))}
         </div>)
     }
 

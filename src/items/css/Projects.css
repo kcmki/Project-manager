@@ -267,14 +267,14 @@ input#add{
         .newProjContainer .control button{
             background-color: #7f7f7f;
             border-radius: 10px;
-            width: 45px;
-            height: 25px;
+            width: 65px;
+            height: 35px;
             border: none;
             margin-right: 10px;
             font-weight: bold;
 
             transition: 0.5s;
-        }
+        } 
             .newProjContainer .control button:hover{
                 transform: scale(1.2);
                 background-color: #e7e7e7;
