@@ -2,6 +2,10 @@ import * as React from "react";
 import {useRef, useEffect,useState} from 'react';
 import { TailSpin,Oval } from "react-loader-spinner";
 import "./css/Projects.css";
+import {URL_projects} from './URLS'
+
+
+
 
 function Projects({setProject}){
     const [NewProj,setNewProj] = useState(null)
@@ -74,7 +78,7 @@ function FormProject({setNewProj,ErrBox,setErrBox}){
                         data.append("date",refDate.current.value)
                         data.append("desc",refDesc.current)
                         console.log(data)
-                    let response = await fetch("https://my-json-server.typicode.com/kcmki/ReactTodos/Projects",{'method':"POST",'body':data})
+                    let response = await fetch(URL_projects,{'method':"POST",'body':data})
                     if(response.ok){
                         data = await response.json()
                         let proj = {
@@ -158,7 +162,7 @@ function ProjectList({setProject,NewProj}){
 
 
     async function fetchProjects(setProjects){
-        const response = await fetch('https://my-json-server.typicode.com/kcmki/ReactTodos/Projects')
+        const response = await fetch(URL_projects)
         if (!response.ok) {
             const message = `An error has occured: ${response.status}`;
             throw new Error(message);

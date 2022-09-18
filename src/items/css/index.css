@@ -20,3 +20,13 @@ code {
   display: flex;
   flex-direction: row;
 }
+#container{
+  width: calc(100vw - 350px);
+
+  transition: 0.5s;
+}
+#burger:checked ~ #container{
+  width: calc(100vw - 100px);
+
+  transition: 0.5s;
+}

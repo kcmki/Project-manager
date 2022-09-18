@@ -1,8 +1,8 @@
 import * as React from "react";
 
-import Navbar from "./items/Navbar";
-import Header from "./items/Header";
-import Content from "./items/Content";
+import Navbar from "./Navbar";
+import Header from "./Header";
+import Content from "./Content";
 import { useState } from "react";
 
 function MyApp(){

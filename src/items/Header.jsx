@@ -2,9 +2,11 @@ import * as React from "react";
 import { Bars } from "react-loader-spinner";
 import { useEffect,useState } from "react";
 import "./css/Header.css"
+import {URL_tasks} from './URLS'
+
 
 async function fetchToDos(setData){
-    const response = await fetch('https://my-json-server.typicode.com/kcmki/ReactTodos/Todos')
+    const response = await fetch(URL_tasks)
     if (!response.ok) {
         const message = `An error has occured: ${response.status}`;
         throw new Error(message);
@@ -35,7 +37,7 @@ function Header(){
     )       
 }
 
-function Taches({tasks,Data}){
+function Taches({tasks}){
 
     if(tasks){
         return (
@@ -55,7 +57,7 @@ function Taches({tasks,Data}){
                             )) }
                     </div>
                 </div>)
-    }else{
+    }else{ 
         return(
             <div className="loaderCentrer">
                 <Bars
@@ -70,7 +72,7 @@ function Taches({tasks,Data}){
             </div>
 
         )
-    }
+    } 
 
 }
 
