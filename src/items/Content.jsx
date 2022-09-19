@@ -39,37 +39,49 @@ function Content({project}){
     
     return(
         <div id="content">
-
-            <LoaderCircle loaded = {loaded} />
-
+            <div className="title"> Project : {project}</div>
+            <div className="container">
+                <PrjctTasks />
+                <MyPrjct />
+                <FinishedTasks />
+            </div>
         </div>
     )
 }
 
-function LoaderCircle({loaded}){
-    if(loaded === 0){
-        return( <div> Please select a project to display data</div>)
-    }else if(loaded === false){
+function PrjctTasks(){
     return (
-        <Oval
-            height={80}
-            width={80}
-            color="#4fa94d"
-            wrapperStyle={{}}
-            wrapperClass=""
-            visible={true}
-            ariaLabel='oval-loading'
-            secondaryColor="#4fa94d"
-            strokeWidth={4}
-            strokeWidthSecondary={4}
-            />
-    )                 
-    }else{
-        return (<div>
-            {loaded.map((item)=>(<div className="popupitems" key={item.id}> {item.id} </div>))}
-        </div>)
-    }
+        <div className="tasks">
+            <div className="title">
+                My Tasks
+            </div>
+            <div className="container">
+                <input type="checkbox" name="newtaskOpener" id="newtaskOpener" />
+                <div className="new">
+                    <div className="control">
+                        <label for="newtaskOpener">     
+                            <div>
+                                <span></span>
+                                <span></span>
+                            </div>                   
+                        </label>
+                    </div>
+                    <div className="form">
 
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
 }
-
+function MyPrjct(){
+    return(
+        <div className="prjct"></div>
+    )
+}
+function FinishedTasks(){
+    return(
+        <div className="ftasks"></div>
+    )
+}
 export default Content
