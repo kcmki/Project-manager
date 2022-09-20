@@ -3,12 +3,13 @@ import { Bars } from "react-loader-spinner";
 import { useEffect,useState } from "react";
 import "./css/Header.css"
 import {URL_tasks} from './URLS'
-
+import "./css/Utils.css"
 
 async function fetchToDos(setData){
     const response = await fetch(URL_tasks)
     if (!response.ok) {
         const message = `An error has occured: ${response.status}`;
+        setData(404)
         throw new Error(message);
     }
 
@@ -18,12 +19,12 @@ async function fetchToDos(setData){
 
 function Header(){
     
-    const [Data, setData] = useState(false)
+    const [Data, setData] = useState(null)
 
 
     useEffect(async () => {
         
-        if ( Data === false){
+        if ( Data === null){
             await fetchToDos(setData).catch(error => {error.message})
         } 
 
@@ -38,8 +39,28 @@ function Header(){
 }
 
 function Taches({tasks}){
+    if(tasks === null){
+        return(
+            <div className="loaderCentrer">
+                <Bars
+                height="80"
+                width="80"
+                color="#4fa94d"
+                ariaLabel="bars-loading"
+                wrapperStyle={{}}
+                wrapperClass=""
+                visible={true}
+                />
+            </div>
 
-    if(tasks){
+        )
+    }else if(tasks === 404){
+        return(
+            <div className="loadingError">
+                Recharger la page
+            </div>
+        )
+    }else{
         return (
                 <div className="scroll">
                     <div className="tasksContainer">
@@ -57,22 +78,7 @@ function Taches({tasks}){
                             )) }
                     </div>
                 </div>)
-    }else{ 
-        return(
-            <div className="loaderCentrer">
-                <Bars
-                height="80"
-                width="80"
-                color="#4fa94d"
-                ariaLabel="bars-loading"
-                wrapperStyle={{}}
-                wrapperClass=""
-                visible={true}
-                />
-            </div>
-
-        )
-    } 
+    }
 
 }
 

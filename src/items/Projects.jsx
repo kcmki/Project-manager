@@ -3,7 +3,14 @@ import {useRef, useEffect,useState} from 'react';
 import { TailSpin,Oval } from "react-loader-spinner";
 import "./css/Projects.css";
 import {URL_projects} from './URLS'
+import "./css/Utils.css"
 
+export function minDate(){
+    let today = new Date()
+    let month = (today.getMonth()+1 < 10)?"0"+(today.getMonth()+1) : today.getMonth()+1 
+    let day = (today.getDate() < 10)?"0"+(today.getDate()) : today.getDate()
+    return today.getFullYear()+'-'+month+'-'+day;
+}
 
 
 
@@ -35,13 +42,8 @@ function Projects({setProject}){
 
 function FormProject({setNewProj,ErrBox,setErrBox}){
         //set up mindate for input
-        function minDate(){
-            let today = new Date()
-            let month = (today.getMonth()+1 < 10)?"0"+(today.getMonth()+1) : today.getMonth()+1 
-            let day = (today.getDate() < 10)?"0"+(today.getDate()) : today.getDate()
-            return today.getFullYear()+'-'+month+'-'+day;
-        }
-        function verifyData(){
+
+        function verifyData(refText,refDate,refDesc){
             if(refText.current.value === ""){
                 return "Le titre ne peut etre vide"
             }else{
@@ -77,7 +79,7 @@ function FormProject({setNewProj,ErrBox,setErrBox}){
                         data.append("title",refText.current)
                         data.append("date",refDate.current.value)
                         data.append("desc",refDesc.current)
-                        console.log(data)
+
                     let response = await fetch(URL_projects,{'method':"POST",'body':data})
                     if(response.ok){
                         data = await response.json()
@@ -90,7 +92,6 @@ function FormProject({setNewProj,ErrBox,setErrBox}){
                         setErrBox("verifier les donnes et ressayer ultérieurement")
                     }
                 }else{
-                    console.log("erreur "+dataTest)
                     setErrBox(dataTest)
                 }
                 setLoadingNewprj(false)
@@ -135,7 +136,6 @@ function LoaderButton({LoadingNewprj,setLoadingNewprj}){
                     secondaryColor="#555555"
                     strokeWidth={5}
                     strokeWidthSecondary={5}
-
                     />
                 </div>
             </button>
@@ -165,6 +165,7 @@ function ProjectList({setProject,NewProj}){
         const response = await fetch(URL_projects)
         if (!response.ok) {
             const message = `An error has occured: ${response.status}`;
+            setProjects(404)
             throw new Error(message);
         }
     
@@ -175,14 +176,12 @@ function ProjectList({setProject,NewProj}){
     //new project management
     useEffect(() => {
         if(NewProj != null){
-            console.log(Projects)
             let t = []
             Projects.map((prj)=>{
                 t.push(prj)
             }
             )
             t.push(NewProj)
-            console.log(t)
             setProjects(t)
         }
   
@@ -204,6 +203,12 @@ function ProjectList({setProject,NewProj}){
                 wrapperClass=""
                 visible={true}
                 />
+            </div>
+        )
+    }else if(Projects ===404){
+        return(
+            <div className="loadingError">
+                Rechargez la page
             </div>
         )
     }else{

@@ -1,9 +1,10 @@
 
 import * as React from "react";
 import "./css/Content.css";
-import {Audio, Radio, Oval} from 'react-loader-spinner'
-import { useState , useEffect } from "react";
-
+import "./css/Content/Task.css"
+import {Oval} from 'react-loader-spinner'
+import { useState , useEffect , useRef } from "react";
+import PrjctTasks from "./PrjctTasks";
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -34,14 +35,11 @@ function Content({project}){
 
     }, [project])
 
-
-    
-    
     return(
         <div id="content">
             <div className="title"> Project : {project}</div>
             <div className="container">
-                <PrjctTasks />
+                <PrjctTasks project={project} />
                 <MyPrjct />
                 <FinishedTasks />
             </div>
@@ -49,31 +47,7 @@ function Content({project}){
     )
 }
 
-function PrjctTasks(){
-    return (
-        <div className="tasks">
-            <div className="title">
-                My Tasks
-            </div>
-            <div className="container">
-                <input type="checkbox" name="newtaskOpener" id="newtaskOpener" />
-                <div className="new">
-                    <div className="control">
-                        <label for="newtaskOpener">     
-                            <div>
-                                <span></span>
-                                <span></span>
-                            </div>                   
-                        </label>
-                    </div>
-                    <div className="form">
 
-                    </div>
-                </div>
-            </div>
-        </div>
-    )
-}
 function MyPrjct(){
     return(
         <div className="prjct"></div>
