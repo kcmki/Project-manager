@@ -4,7 +4,7 @@ import { TailSpin,Oval } from "react-loader-spinner";
 import "./css/Projects.css";
 import {URL_projects} from './URLS'
 import "./css/Utils.css"
-
+import iconX from './assets/iconX.png'
 export function minDate(){
     let today = new Date()
     let month = (today.getMonth()+1 < 10)?"0"+(today.getMonth()+1) : today.getMonth()+1 
@@ -112,7 +112,7 @@ function FormProject({setNewProj,ErrBox,setErrBox}){
             
             <div className="control">
                 <LoaderButton LoadingNewprj={LoadingNewprj} setLoadingNewprj={setLoadingNewprj}/>
-                <label htmlFor="add" onClick={()=>setErrBox("")} >X</label>
+                <label htmlFor="add" onClick={()=>setErrBox("")} ><img src={iconX} alt="" srcSet="" /></label>
             </div>
         </div>
 

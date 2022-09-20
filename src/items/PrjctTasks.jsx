@@ -5,6 +5,7 @@ import { Oval,TailSpin} from 'react-loader-spinner'
 import { useState , useEffect , useRef } from "react";
 import { URL_tasks } from "./URLS";
 import {minDate} from "./Projects";
+import done from './assets/done.png'
 
 function PrjctTasks({project}){
     const [newTask, setnewTask] = useState(null)
@@ -130,16 +131,31 @@ function LoaderButton({loadingTask,setloadingTask}){
 }
 
 function TaskList({newTask,project}){
-
+    const [Done,setDone] = useState(null)
     const [prjTasks, setprjTasks] = useState(null)
+     
+    useEffect(async () => {
+        let temp = []
 
-    useEffect(() => {
-        setprjTasks(null)
-        fetchTasks(setprjTasks).catch(error => {console.log(error.message)})
-
-    }, [project])
-
+        if(Done != null){
+            let response = await fetch(URL_tasks,/* {"method":"POST",} */)
+            if(response.ok){
+                prjTasks.map((task)=>{
+                    if(task.id != Done){
+                      temp.push(task)  
+                    }
+                }
+                )
+                setprjTasks(temp) 
+                
+            }
+        }
+        setDone(null)
+    }, [Done])
     
+
+
+    //add task
     useEffect(() => {
         if(newTask != null){
             let t = []
@@ -153,6 +169,12 @@ function TaskList({newTask,project}){
   
       }, [newTask])
     
+    //load tasks
+    useEffect(() => {
+        setprjTasks(null)
+        fetchTasks(setprjTasks).catch(error => {console.log(error.message)})
+
+    }, [project])
     async function fetchTasks(setprjTasks){
         let response = await fetch(URL_tasks/*, {prj_id,access_token} */)
         if (response.ok){
@@ -195,31 +217,70 @@ function TaskList({newTask,project}){
         return(
             <div className="taskListContainer">
             {prjTasks.map((task)=>(
-                <div className="Task" key={task.id}>
-                    <div className="content">
-                        <div className="title">{task.body}</div>
-                        <div className="date">{task.id}</div>
-                        <div className="desc">{task.body}</div>
-                    </div>  
-
-                    <div className="borderBox">
-                        <div className="control">
-                            <input type="checkbox" name="confirmDoneTask" id="confirmDoneTask" />
-                            <div className="confirm">
-                                <label className="bt1" htmlFor="confirmDoneTask">
-                                    Done
-                                </label>
-                                <button>Y</button>
-                                <label htmlFor="confirmDoneTask">X</label>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
+                <Task task={task} key={task.id} id={task.id} setDone={setDone} Done={Done}/>
             ))
             }
             </div>
         )
+    }
+}
+function Task({task,id,setDone,Done}){
+    const bt1 = useRef(null)
+    const brdrbox = useRef(null)
+    const ctrl2 = useRef(null)
+    function toggleHide(){
+        if(bt1!= null){
+            bt1.current.classList.toggle("hideAnimate")
+            brdrbox.current.classList.toggle("grow")
+            ctrl2.current.classList.toggle("goUp")
+        }
+    }
+
+    return(
+        <div className="Task" >
+            <div className="content">
+                <div className="title">{task.body}</div>
+                <div className="date">{task.id}</div>
+                <div className="desc">{task.body}</div>
+            </div>  
+            <div className="loaderCentrer">
+                <div className="borderBox" ref={brdrbox} >
+                    <div className="control">
+                            <div ref={bt1} className="bt1" onClick={()=>toggleHide()}><img src={done}></img></div>
+                            <div className="control2" ref={ctrl2}>
+                            <LoadingDoneTaskButton id={id} setDone={setDone} Done={Done}/>
+                            <div className="bt2" onClick={()=>toggleHide()}></div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    )
+}
+
+function LoadingDoneTaskButton({Done,setDone,id}){
+    
+    if(Done != null){
+        return (<div className="confirmButton">
+                    <Oval
+                        height={15}
+                        width={15}
+                        color="#000000"
+                        wrapperStyle={{}}
+                        wrapperClass=""
+                        visible={true}
+                        ariaLabel='oval-loading'
+                        secondaryColor="#555555"
+                        strokeWidth={5}
+                        strokeWidthSecondary={5}
+                    />
+                </div>
+        )
+    }else{
+        return (<div className="confirmButton" onClick={()=>setDone(id)}>
+            <img src={done} alt="" srcSet=""/>
+        </div>)
     }
 }
 

@@ -1,9 +1,9 @@
 #content .container .tasks{
     grid-area: tasks;
 
-    width: calc(100% - 10px);
-    height: calc(100% - 10px);
-    padding: 5px;
+    width: calc(100%);
+    height: calc(100%);
+
     }
         #content .container .tasks .title{
             font-size: 17px;
@@ -177,34 +177,102 @@
                         text-align: center;
                         font-size: 12px;
                         padding:2px;
+                        word-break:break-all;
                     }
+
+
+
+
                 #content .container .tasks .container .taskListContainer .Task .control{
                     position: relative;
-
                     width: 100%;
                     height: 100%;
-                    border-radius: 10px;
                 }
-                #content .container .tasks .container .taskListContainer .Task .control #confirmDoneTask{
-                    display: none;
-                }
+
                 #content .container .tasks .container .taskListContainer .Task .control .bt1{
-                    background-color: green;
+                    background-color: #7f7f7f;
                     height: 100%;
                     width: 100%;
                     position: absolute;
                     transition: 0.5s;
                     z-index: 1;
+
+                    border-radius: 5px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
                 }
-                #content .container .tasks .container .taskListContainer .Task .control #confirmDoneTask:checked ~ .confirm .bt1{
-                    opacity: 0;
-                    z-index: -1;
+                #content .container .tasks .container .taskListContainer .Task .control .bt1 img{
+                    width: 18px;
+                    height: 18px;
+
                     transition: 0.5s;
                 }
+                #content .container .tasks .container .taskListContainer .Task .control .bt2{
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    border-radius: 3px;
+                    width: 100%;
+                    height: 12px;
+                    margin-top: 4px;
+                    background-color: red;
+                    transition: 0.5s;
+                }
+                    #content .container .tasks .container .taskListContainer .Task .control .bt2:hover{
+                        transform: scale(1.1);
+                        transition: 0.5s;
+                    }
 
-#content .container .tasks .container .taskListContainer .Task .borderBox{
-    padding: 3px;
-    border: 3px solid green;
-    border-radius: 10px;
-    margin: 3px;
-}
+                #content .container .tasks .container .taskListContainer .Task .control .confirmButton{
+                    width: 22px;
+                    height: calc(100% - 17px);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    border-radius: 3px;
+
+                    background-color: green;
+
+                }
+
+                    #content .container .tasks .container .taskListContainer .Task .control .confirmButton img{
+                        width: 18px;
+                        height: 18px;
+
+                        transition: 0.5s;
+                    }
+                    #content .container .tasks .container .taskListContainer .Task .control .confirmButton:hover img{
+                        transform: scale(1.2);
+
+                        transition: 0.5s;
+                    }
+                    #content .container .tasks .container .taskListContainer .Task .control .control2{
+                        transform: translate(0px,120%);
+                        height: 100%;
+                        transition: 0.5s;
+                    }
+
+                    #content .container .tasks .container .taskListContainer .Task .borderBox{
+                        padding: 3px;
+                        border: 2px solid #7f7f7f;
+                        border-radius: 10px;
+                        margin: 3px;
+                        overflow: hidden;
+                        height: 22px;
+
+                        transition: 0.5s;
+                    }
+                    #content .container .tasks .container .taskListContainer .Task .grow{
+                        height: 38px;
+
+                        transition: 0.5s;
+                    }
+                    #content .container .tasks .container .taskListContainer .Task .control .hideAnimate{
+                        transform: translate(0px,-120%);
+                        transition: 0.5s;
+                    }
+                    #content .container .tasks .container .taskListContainer .Task .control .goUp{
+                        transform: translate(0px,0px);
+                        transition: 0.5s;
+                    }

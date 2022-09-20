@@ -2,6 +2,7 @@ import * as React from "react";
 import ReactDOM from "react-dom";
 import "./css/Navbar.css";
 import Projects from "./Projects";
+import mcsoft from './assets/mcsoft.png'
 
 function Navbar({setProject}){
 
@@ -12,7 +13,7 @@ function Navbar({setProject}){
 
             <div className="top">
                 <div className="logo">
-                    <img src="https://to-do-cdn.microsoft.com/static-assets/c87265a87f887380a04cf21925a56539b29364b51ae53e089c3ee2b2180148c6/icons/logo.png" alt="logo" />
+                    <img src={mcsoft} alt="logo" />
                     <div className="title">ToDo</div>
                 </div>
 
