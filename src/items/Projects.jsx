@@ -80,7 +80,8 @@ function FormProject({setNewProj,ErrBox,setErrBox}){
                         data.append("date",refDate.current.value)
                         data.append("desc",refDesc.current)
 
-                    let response = await fetch(URL_projects,{'method':"POST",'body':data})
+                    let response = await fetch(URL_projects,{'method':"POST",'body':data}).catch((err)=>{setErrBox("No network");setLoadingNewprj(false)})
+
                     if(response.ok){
                         data = await response.json()
                         let proj = {
@@ -155,7 +156,7 @@ function ProjectList({setProject,NewProj}){
 
     useEffect(() => {
         if(Projects === null){
-            fetchProjects(setProjects).catch(error => {error.message})
+            fetchProjects(setProjects).catch(error => {setProjects(404)})
         }
     }, [Projects])
 
@@ -205,7 +206,7 @@ function ProjectList({setProject,NewProj}){
                 />
             </div>
         )
-    }else if(Projects ===404){
+    }else if(Projects === 404){
         return(
             <div className="loadingError">
                 Rechargez la page

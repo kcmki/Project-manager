@@ -25,7 +25,7 @@ function Header(){
     useEffect(async () => {
         
         if ( Data === null){
-            await fetchToDos(setData).catch(error => {error.message})
+            await fetchToDos(setData).catch(error => {setData(404)})
         } 
 
     }, [Data])
@@ -79,7 +79,6 @@ function Taches({tasks}){
                     </div>
                 </div>)
     }
-
 }
 
 export default Header

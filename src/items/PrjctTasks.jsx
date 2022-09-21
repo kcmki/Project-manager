@@ -172,7 +172,7 @@ function TaskList({newTask,project}){
     //load tasks
     useEffect(() => {
         setprjTasks(null)
-        fetchTasks(setprjTasks).catch(error => {console.log(error.message)})
+        fetchTasks(setprjTasks).catch(error => {console.log(error.message);setprjTasks(404)})
 
     }, [project])
     async function fetchTasks(setprjTasks){
