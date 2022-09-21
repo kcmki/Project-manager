@@ -1,5 +1,4 @@
 import * as React from "react";
-import ReactDOM from "react-dom";
 import "./css/Navbar.css";
 import Projects from "./Projects";
 import mcsoft from './assets/mcsoft.png'

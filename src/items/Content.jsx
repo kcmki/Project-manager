@@ -5,7 +5,8 @@ import "./css/Content/Task.css"
 import {Oval} from 'react-loader-spinner'
 import { useState , useEffect , useRef } from "react";
 import PrjctTasks from "./PrjctTasks";
-
+import MyPrjct from "./MyPrjct";
+import FinishedTasks from "./FinishedTasks";
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -40,7 +41,7 @@ function Content({project}){
             <div className="title"> Project : {project}</div>
             <div className="container">
                 <PrjctTasks project={project} />
-                <MyPrjct />
+                <MyPrjct project={project}/>
                 <FinishedTasks />
             </div>
         </div>
@@ -48,14 +49,6 @@ function Content({project}){
 }
 
 
-function MyPrjct(){
-    return(
-        <div className="prjct"></div>
-    )
-}
-function FinishedTasks(){
-    return(
-        <div className="ftasks"></div>
-    )
-}
+
+
 export default Content

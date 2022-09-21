@@ -26,22 +26,8 @@
 
 
 
-    #content .container .prjct{
-    grid-area: prjct;
-    background-color: green;
 
-    width: calc(100% - 10px);
-    height: calc(100% - 10px);
-    padding: 5px;
-    }
-    #content .container .ftasks{
-    grid-area: ftasks;
-    background-color: red;
 
-    width: calc(100% - 10px);
-    height: calc(100% - 10px);
-    padding: 5px;
-    }
 
 
 
