@@ -248,8 +248,8 @@ function Task({task,id,setDone,Done}){
                     <div className="control">
                             <div ref={bt1} className="bt1" onClick={()=>toggleHide()}><img src={done}></img></div>
                             <div className="control2" ref={ctrl2}>
-                            <LoadingDoneTaskButton id={id} setDone={setDone} Done={Done}/>
-                            <div className="bt2" onClick={()=>toggleHide()}></div>
+                                <LoadingDoneTaskButton id={id} setDone={setDone} Done={Done}/>
+                                <div className="bt2" onClick={()=>toggleHide()}></div>
                             </div>
                     </div>
                 </div>
