@@ -6,15 +6,19 @@ import Content from "./Content";
 import { useState } from "react";
 
 function MyApp(){
-    const [project,setProject] = useState(0)
+    const [project,setProject] = useState(null)
+    const [deleteProj,setdeleteProj] = useState(null)
+
+
     
+
     return(
         <> 
-            <Navbar setProject={setProject}/>
+            <Navbar setProject={setProject} deleteProj={deleteProj}/>
 
             <div id="container">
             <Header />
-            <Content project={project} />
+            <Content project={project} setProject={setProject} setdeleteProj={setdeleteProj} />
             </div>
         </>
         

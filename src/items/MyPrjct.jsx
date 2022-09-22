@@ -7,8 +7,27 @@ import { useState , useEffect , useRef } from "react";
 import { URL_projects } from "./URLS";
 import iconX from './assets/iconX.png'
 import './css/Content/Task.css'
-import done from './assets/done.png'
-function MyPrjct({project}){
+import trash from './assets/trash-can.png'
+
+function MyPrjct({project,setProject,setdeleteProj}){
+
+    const [toDelete,settoDelete] = useState(null)
+
+    useEffect(async () => {
+        
+        if(toDelete != null){
+            var form = new FormData()
+                form.append("id",project)
+            let response = await fetch(URL_projects,{"method":"POST","body":form})
+            if(response.ok){
+                setdeleteProj(project)
+                setProject(null)
+            }
+        }
+        settoDelete(null)
+    }, [toDelete])
+    
+
 
     const bt1 = useRef(null)
     const brdrbox = useRef(null)
@@ -36,9 +55,9 @@ function MyPrjct({project}){
                 <div className="loaderCentrer">
                     <div className="borderBox" ref={brdrbox} >
                         <div className="control">
-                                <div ref={bt1} className="bt1" onClick={()=>toggleHide()}><img src={done}></img></div>
+                                <div ref={bt1} className="bt1" onClick={()=>toggleHide()}><img src={trash}></img></div>
                                 <div className="control2" ref={ctrl2}>
-                                <LoadingDoneTaskButton id={project} />
+                                <LoadingDoneTaskButton id={project} toDelete={toDelete} settoDelete={settoDelete}/>
                                 <div className="bt2" onClick={()=>toggleHide()}></div>
                                 </div>
                         </div>
@@ -50,9 +69,9 @@ function MyPrjct({project}){
     </div>
     )
 }
-function LoadingDoneTaskButton({Done}){
+function LoadingDoneTaskButton({id,toDelete,settoDelete}){
     
-    if(Done != null){
+    if(toDelete != null){
         return (<div className="confirmButton">
                     <Oval
                         height={15}
@@ -69,8 +88,8 @@ function LoadingDoneTaskButton({Done}){
                 </div>
         )
     }else{
-        return (<div className="confirmButton" /* onClick={()=>setDone(id)} */>
-            <img src={done} alt="" srcSet=""/>
+        return (<div className="confirmButton" onClick={()=>settoDelete(id)}>
+            <img src={trash} alt="" srcSet=""/>
         </div>)
     }
 }

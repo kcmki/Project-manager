@@ -14,9 +14,10 @@ export function minDate(){
 
 
 
-function Projects({setProject}){
+function Projects({setProject,deleteProj}){
     const [NewProj,setNewProj] = useState(null)
     const [ErrBox, setErrBox] = useState("")
+
     return(
         <>
         <div className="projects">
@@ -32,7 +33,7 @@ function Projects({setProject}){
             </div>
             <div className="scroller">
                 <div className="list">
-                    <ProjectList setProject={setProject} NewProj={NewProj}/>
+                    <ProjectList setProject={setProject} NewProj={NewProj} deleteProj={deleteProj}/>
                 </div>
             </div>
         </div>
@@ -148,7 +149,7 @@ function LoaderButton({LoadingNewprj,setLoadingNewprj}){
     }
 }
 
-function ProjectList({setProject,NewProj}){
+function ProjectList({setProject,NewProj,deleteProj}){
     var colors = ["#4700D8","#9900F0","#F900BF","#FF85B3","#5E11D4","#D164BD","#A343C6","#8C33CB","#7522CF"]
     
     //fetching projects
@@ -161,6 +162,20 @@ function ProjectList({setProject,NewProj}){
     }, [Projects])
 
 
+    useEffect(async () => {
+        let temp = []
+
+        if(deleteProj != null){
+
+                Projects.map((task)=>{
+                    if(task.id != deleteProj){
+                      temp.push(task)  
+                    }})
+
+                setProjects(temp) 
+            }
+        }
+    , [deleteProj])
 
     async function fetchProjects(setProjects){
         const response = await fetch(URL_projects)

@@ -3,7 +3,7 @@ import "./css/Navbar.css";
 import Projects from "./Projects";
 import mcsoft from './assets/mcsoft.png'
 
-function Navbar({setProject}){
+function Navbar({setProject,deleteProj}){
 
     return(
         <> 
@@ -24,7 +24,7 @@ function Navbar({setProject}){
                 </label>
             </div>
             <span className="separator"></span>
-            <Projects setProject={setProject}/>
+            <Projects setProject={setProject} deleteProj={deleteProj}/>
 
             </nav>
         </>

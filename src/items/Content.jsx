@@ -24,7 +24,7 @@ async function fetchProject(setLoaded){
 }
 
 
-function Content({project}){
+function Content({project,setProject,setdeleteProj}){
 
     const [loaded, setLoaded] = useState(0)
     
@@ -35,17 +35,23 @@ function Content({project}){
         }
 
     }, [project])
-
-    return(
-        <div id="content">
-            <div className="title"> Project : {project}</div>
-            <div className="container">
-                <PrjctTasks project={project} />
-                <MyPrjct project={project}/>
-                <FinishedTasks />
+    if(project == null){
+        return(<div id="content">
+            <div className="title"> Please select a project </div>
+        </div>)
+    }else{
+        return(
+            <div id="content">
+                <div className="title"> Project : {project}</div>
+                <div className="container">
+                    <PrjctTasks project={project} />
+                    <MyPrjct project={project} setProject={setProject} setdeleteProj={setdeleteProj}/>
+                    <FinishedTasks />
+                </div>
             </div>
-        </div>
-    )
+        )
+    }
+
 }
 
 
