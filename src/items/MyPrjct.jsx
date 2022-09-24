@@ -12,7 +12,7 @@ import trash from './assets/trash-can.png'
 function MyPrjct({project,setProject,setdeleteProj}){
 
     const [toDelete,settoDelete] = useState(null)
-
+    const [Data,setData] = useState(null)
     useEffect(async () => {
         
         if(toDelete != null){
@@ -27,6 +27,17 @@ function MyPrjct({project,setProject,setdeleteProj}){
         settoDelete(null)
     }, [toDelete])
     
+    useEffect(async () => {
+        if(project != null){
+            let response = await fetch(URL_projects+"/"+project,{"method":"GET"})
+            
+            if(response.ok){
+                let temp = await response.json()
+                setData(temp)
+            }
+        }
+    }, [project])
+    
 
 
     const bt1 = useRef(null)
@@ -40,34 +51,34 @@ function MyPrjct({project,setProject,setdeleteProj}){
             ctrl2.current.classList.toggle("goUp")
         }
     }
-
     return(
-        <div className="prjct">
-        <div className="title">
-            Prjct
-        </div>
-        <div className="container">
-            <div className="title">title</div>
-            <div className="date">date</div>
-            <div className="desc">desc</div>
-
-            <div className="control">
-                <div className="loaderCentrer">
-                    <div className="borderBox" ref={brdrbox} >
-                        <div className="control">
-                                <div ref={bt1} className="bt1" onClick={()=>toggleHide()}><img src={trash}></img></div>
-                                <div className="control2" ref={ctrl2}>
-                                <LoadingDoneTaskButton id={project} toDelete={toDelete} settoDelete={settoDelete}/>
-                                <div className="bt2" onClick={()=>toggleHide()}></div>
-                                </div>
+            <div className="prjct">
+            <div className="title">
+                Prjct
+            </div>
+            <div className="container">
+                <div className="title">{Data.title}</div>
+                <div className="date">{Data.id}</div>
+                <div className="desc">{Data.title}</div>
+    
+                <div className="control">
+                    <div className="loaderCentrer">
+                        <div className="borderBox" ref={brdrbox} >
+                            <div className="control">
+                                    <div ref={bt1} className="bt1" onClick={()=>toggleHide()}><img src={trash}></img></div>
+                                    <div className="control2" ref={ctrl2}>
+                                    <LoadingDoneTaskButton id={project} toDelete={toDelete} settoDelete={settoDelete}/>
+                                    <div className="bt2" onClick={()=>toggleHide()}></div>
+                                    </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+    
         </div>
+        )
 
-    </div>
-    )
 }
 function LoadingDoneTaskButton({id,toDelete,settoDelete}){
     
