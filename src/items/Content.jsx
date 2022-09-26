@@ -42,11 +42,11 @@ function Content({project,setProject,setdeleteProj}){
     }else{
         return(
             <div id="content">
-                <div className="title"> Project : {project}</div>
+                <div className="title"> Project :</div>
                 <div className="container">
                     <PrjctTasks project={project} />
                     <MyPrjct project={project} setProject={setProject} setdeleteProj={setdeleteProj}/>
-                    <FinishedTasks />
+                    <FinishedTasks project={project} />
                 </div>
             </div>
         )

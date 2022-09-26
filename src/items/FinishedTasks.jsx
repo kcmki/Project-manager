@@ -9,8 +9,16 @@ import iconX from './assets/iconX.png'
 
 function FinishedTasks(){
     return(
-        <div className="ftasks"></div>
+        <div id="ftasks">
+            <Task />
+        </div>
     )
 }
+function Task(){
+    return (
+        <div className="Task">
 
+        </div>
+    )
+}
 export default FinishedTasks

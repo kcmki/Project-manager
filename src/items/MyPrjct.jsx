@@ -28,12 +28,14 @@ function MyPrjct({project,setProject,setdeleteProj}){
     }, [toDelete])
     
     useEffect(async () => {
+        setData(null)
         if(project != null){
             let response = await fetch(URL_projects+"/"+project,{"method":"GET"})
-            
             if(response.ok){
                 let temp = await response.json()
                 setData(temp)
+            }else{
+                setData(404)
             }
         }
     }, [project])
@@ -51,7 +53,36 @@ function MyPrjct({project,setProject,setdeleteProj}){
             ctrl2.current.classList.toggle("goUp")
         }
     }
-    return(
+    if(Data === null){
+        return(
+            <div className="prjct">
+            <div className="title">
+                Prjct
+            </div>
+            <div className="container">
+                <div className="loaderCentrer">
+                    <TailSpin
+                    height="80"
+                    width="80"
+                    color="#4fa94d"
+                    ariaLabel="tail-spin-loading"
+                    radius="1"
+                    wrapperStyle={{}}
+                    wrapperClass=""
+                    visible={true}
+                    />
+                </div>
+            </div>
+    
+        </div>
+        )
+    }
+    else if(Data === 404){
+        return (<div className="prjct">
+                Please refresh page
+        </div>)
+    }else{
+        return(
             <div className="prjct">
             <div className="title">
                 Prjct
@@ -78,6 +109,7 @@ function MyPrjct({project,setProject,setdeleteProj}){
     
         </div>
         )
+    }
 
 }
 function LoadingDoneTaskButton({id,toDelete,settoDelete}){
