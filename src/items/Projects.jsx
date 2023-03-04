@@ -5,16 +5,11 @@ import "./css/Projects.css";
 import {URL_projects} from './URLS'
 import "./css/Utils.css"
 import iconX from './assets/iconX.png'
-export function minDate(){
-    let today = new Date()
-    let month = (today.getMonth()+1 < 10)?"0"+(today.getMonth()+1) : today.getMonth()+1 
-    let day = (today.getDate() < 10)?"0"+(today.getDate()) : today.getDate()
-    return today.getFullYear()+'-'+month+'-'+day;
-}
+import loupe from './assets/109859.png'
 
 
 
-function Projects({setProject,deleteProj}){
+function Projects({setProject,deleteProj,setTerrain}){
     const [NewProj,setNewProj] = useState(null)
     const [ErrBox, setErrBox] = useState("")
 
@@ -22,7 +17,7 @@ function Projects({setProject,deleteProj}){
         <>
         <div className="projects">
             <div className="title">
-                <div className="text">Projects</div>
+                <div className="text">Users</div>
                 <input type="checkbox" name="add" id="add" onClick={()=>setErrBox("")}/>
                 <label className="add" htmlFor="add" >
                     <svg className="addLogo" width="18px" height="18px" fill="ffffff">
@@ -33,7 +28,7 @@ function Projects({setProject,deleteProj}){
             </div>
             <div className="scroller">
                 <div className="list">
-                    <ProjectList setProject={setProject} NewProj={NewProj} deleteProj={deleteProj}/>
+                    <ProjectList setProject={setProject} setTerrain={setTerrain} NewProj={NewProj} deleteProj={deleteProj}/>
                 </div>
             </div>
         </div>
@@ -44,27 +39,13 @@ function Projects({setProject,deleteProj}){
 function FormProject({setNewProj,ErrBox,setErrBox}){
         //set up mindate for input
 
-        function verifyData(refText,refDate,refDesc){
+        function verifyData(refText){
             if(refText.current.value === ""){
                 return "Le titre ne peut etre vide"
-            }else{
-                if(refDesc.current.value ===""){
-                    return " veuillez entrez une description du projet"
-                }else{
-                    if(refDate.current.value ===""){
-                        return "La date est obligatoire"
-                    }else if(refDate.current.value < new Date()){
-                        return "la date est invalide"
-                    }else{
-                        return true
-                    }
-                }
-
-            }   
+            }
+            return true 
         }
         const refText = useRef(null);
-        const refDate = useRef(null);
-        const refDesc = useRef(null);
         
         const [LoadingNewprj, setLoadingNewprj] = useState(false)
 
@@ -72,14 +53,12 @@ function FormProject({setNewProj,ErrBox,setErrBox}){
 
         useEffect(async () => {
             if(LoadingNewprj===true){
-                let dataTest = verifyData(refText,refDate,refDesc)
+                let dataTest = verifyData(refText)
                 if(dataTest === true){
                     setErrBox("")
 
                     var data = new FormData()
                         data.append("title",refText.current)
-                        data.append("date",refDate.current.value)
-                        data.append("desc",refDesc.current)
 
                     let response = await fetch(URL_projects,{'method':"POST",'body':data}).catch((err)=>{setErrBox("No network");setLoadingNewprj(false)})
 
@@ -104,12 +83,10 @@ function FormProject({setNewProj,ErrBox,setErrBox}){
     return(
         <div className="newProjContainer">
         <div className="title">
-            New project
+            New user
         </div>
         <div className="newProj">
-            <input ref={refText} className="newPinput" type="text" name="newProjTitle" id="newProjTitle" placeholder="Titre" />
-            <input ref={refDate} className="newPinput" type="date" name="newProjDate" id="newProjDate" min={minDate()} />
-            <textarea ref={refDesc} className="newPinput" id="newProjDesc" name="Description" rows="4" cols="30" placeholder="Description"></textarea>
+            <input ref={refText} className="newPinput" type="text" name="newProjTitle" id="newProjTitle" placeholder="Name" />
             <div id="newPrjErreur">{ErrBox}</div>
             
             <div className="control">
@@ -149,19 +126,17 @@ function LoaderButton({LoadingNewprj,setLoadingNewprj}){
     }
 }
 
-function ProjectList({setProject,NewProj,deleteProj}){
+function ProjectList({setProject,NewProj,deleteProj,setTerrain}){
     var colors = ["#4700D8","#9900F0","#F900BF","#FF85B3","#5E11D4","#D164BD","#A343C6","#8C33CB","#7522CF"]
     
     //fetching projects
     const [Projects,setProjects] = useState(null)
-
+    const [Temp,setTemp] = useState(null)
     useEffect(() => {
         if(Projects === null){
             fetchProjects(setProjects).catch(error => {setProjects(404)})
         }
     }, [Projects])
-
-
     useEffect(async () => {
         let temp = []
 
@@ -173,23 +148,10 @@ function ProjectList({setProject,NewProj,deleteProj}){
                     }})
 
                 setProjects(temp) 
+                setTemp(temp)
             }
         }
     , [deleteProj])
-
-    async function fetchProjects(setProjects){
-        const response = await fetch(URL_projects)
-        if (!response.ok) {
-            const message = `An error has occured: ${response.status}`;
-            setProjects(404)
-            throw new Error(message);
-        }
-    
-        const Projects = await response.json()
-        setProjects(Projects)
-    }
-
-    //new project management
     useEffect(() => {
         if(NewProj != null){
             let t = []
@@ -199,14 +161,36 @@ function ProjectList({setProject,NewProj,deleteProj}){
             )
             t.push(NewProj)
             setProjects(t)
+            setTemp(t)
         }
   
       }, [NewProj])
-      
+    
+      async function fetchProjects(setProjects){
+        const response = await fetch(URL_projects)
+        if (!response.ok) {
+            const message = `An error has occured: ${response.status}`;
+            setProjects(404)
+            throw new Error(message);
+        }
+    
+        const Projects = await response.json()
+        setProjects(Projects)
+        setTemp(Projects)
+    }
+
+    const SearchVal = (event) => {
+        console.log(event.target.value);
+        let temp = []
+        
+        Projects.forEach(item => {
+          if(item.title.toLowerCase().includes(event.target.value.toLowerCase())){temp.push(item)}})
+          setTemp(temp)
+    }
 
 
     //return componement
-    if(Projects === null ){
+    if(Temp === null ){
         return (
             <div className="loaderCentrer">
                 <TailSpin
@@ -221,7 +205,7 @@ function ProjectList({setProject,NewProj,deleteProj}){
                 />
             </div>
         )
-    }else if(Projects === 404){
+    }else if(Temp === 404){
         return(
             <div className="loadingError">
                 Rechargez la page
@@ -230,12 +214,18 @@ function ProjectList({setProject,NewProj,deleteProj}){
     }else{
         return (
             <>
+            <div className="center">
+                <div className="search">
+                    <input type="text" name="Search" id="Search" onChange={SearchVal} placeholder="Recherche"/>
+                    <div className='center'><image src={loupe}></image></div>
+                </div>
+            </div> 
             {
-            Projects.map((task)=>(
-                <div className="Project" key={task.id} onClick={() => setProject(task.id)}>
+            Temp.map((task)=>(
+                <div className="Project" key={task.id} onClick={() => {setProject(task.id);setTerrain(task.id)}}>
                     <div className="box" style={{backgroundColor: colors[task.id % colors.length]}}> </div>
                     <div className="title">{task.title}</div>
-                    <div className="deadline">{task.id}</div>
+                    <div className="deadline"></div>
                 </div>
             ))}
             </>

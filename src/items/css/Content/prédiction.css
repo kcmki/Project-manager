@@ -1,0 +1,34 @@
+.predi{
+    height: calc(100% - 10px);
+
+    border: 3px solid #7f7f7f;
+    border-radius: 0px 0px 15px 0px;
+    margin: 5px 0px 0px 0px;
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: auto;
+}
+.aggri{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    height: 50px;
+    width: 100%;
+}
+.aggri span{
+    display: block;
+    width: 70%;
+    padding-top: 3px;
+    text-align: center;
+}
+.aggri img{
+    width: 10%;
+    height: auto;
+    display: block;
+}
+.aggri :nth-of-child(4n){
+    transform:rotate(-45deg)
+}

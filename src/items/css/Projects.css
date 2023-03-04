@@ -293,3 +293,26 @@ input#add{
             height: 25px;
         }
 
+        div.projects div.list .center{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-bottom: 20px;
+        }
+
+        div.projects div.list .center .search{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #e7e7e7;
+            height: 30px;
+            border-radius: 15px;
+        }
+        div.projects div.list .center .search input{
+            height: 90%;
+            border: none;
+            outline: none;
+            background-color: #e7e7e7;
+            width: 80%;
+            border-radius: 15px;
+        }

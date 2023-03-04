@@ -2,11 +2,11 @@
 import * as React from "react";
 import "./css/Content.css";
 import "./css/Content/Task.css"
-import {Oval} from 'react-loader-spinner'
 import { useState , useEffect , useRef } from "react";
 import PrjctTasks from "./PrjctTasks";
 import MyPrjct from "./MyPrjct";
-import FinishedTasks from "./FinishedTasks";
+import Prédiction from "./Prédiction";
+
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -24,10 +24,12 @@ async function fetchProject(setLoaded){
 }
 
 
-function Content({project,setProject,setdeleteProj}){
+function Content({project,setProject,setdeleteProj,Terrain,setTerrain}){
 
     const [loaded, setLoaded] = useState(0)
     
+
+
     useEffect(async () => {
         if (project != 0 ){
             setLoaded(false)
@@ -37,21 +39,20 @@ function Content({project,setProject,setdeleteProj}){
     }, [project])
     if(project == null){
         return(<div id="content">
-            <div className="title"> Please select a project </div>
+            <div className="title"> Please select a user </div>
         </div>)
     }else{
         return(
             <div id="content">
-                <div className="title"> Project :</div>
+                <div className="title"> User :</div>
                 <div className="container">
-                    <PrjctTasks project={project} />
+                    <PrjctTasks setTerrain={setTerrain} project={project} />
                     <MyPrjct project={project} setProject={setProject} setdeleteProj={setdeleteProj}/>
-                    <FinishedTasks project={project} />
+                    <Prédiction Terrain={Terrain}/>
                 </div>
             </div>
         )
     }
-
 }
 
 
