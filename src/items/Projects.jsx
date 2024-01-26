@@ -5,11 +5,16 @@ import "./css/Projects.css";
 import {URL_projects} from './URLS'
 import "./css/Utils.css"
 import iconX from './assets/iconX.png'
-import loupe from './assets/109859.png'
+export function minDate(){
+    let today = new Date()
+    let month = (today.getMonth()+1 < 10)?"0"+(today.getMonth()+1) : today.getMonth()+1 
+    let day = (today.getDate() < 10)?"0"+(today.getDate()) : today.getDate()
+    return today.getFullYear()+'-'+month+'-'+day;
+}
 
 
 
-function Projects({setProject,deleteProj,setTerrain}){
+function Projects({setProject,deleteProj}){
     const [NewProj,setNewProj] = useState(null)
     const [ErrBox, setErrBox] = useState("")
 
@@ -17,7 +22,7 @@ function Projects({setProject,deleteProj,setTerrain}){
         <>
         <div className="projects">
             <div className="title">
-                <div className="text">Users</div>
+                <div className="text">Projects</div>
                 <input type="checkbox" name="add" id="add" onClick={()=>setErrBox("")}/>
                 <label className="add" htmlFor="add" >
                     <svg className="addLogo" width="18px" height="18px" fill="ffffff">
@@ -28,7 +33,7 @@ function Projects({setProject,deleteProj,setTerrain}){
             </div>
             <div className="scroller">
                 <div className="list">
-                    <ProjectList setProject={setProject} setTerrain={setTerrain} NewProj={NewProj} deleteProj={deleteProj}/>
+                    <ProjectList setProject={setProject} NewProj={NewProj} deleteProj={deleteProj}/>
                 </div>
             </div>
         </div>
@@ -39,13 +44,27 @@ function Projects({setProject,deleteProj,setTerrain}){
 function FormProject({setNewProj,ErrBox,setErrBox}){
         //set up mindate for input
 
-        function verifyData(refText){
+        function verifyData(refText,refDate,refDesc){
             if(refText.current.value === ""){
                 return "Le titre ne peut etre vide"
-            }
-            return true 
+            }else{
+                if(refDesc.current.value ===""){
+                    return " veuillez entrez une description du projet"
+                }else{
+                    if(refDate.current.value ===""){
+                        return "La date est obligatoire"
+                    }else if(refDate.current.value < new Date()){
+                        return "la date est invalide"
+                    }else{
+                        return true
+                    }
+                }
+
+            }   
         }
         const refText = useRef(null);
+        const refDate = useRef(null);
+        const refDesc = useRef(null);
         
         const [LoadingNewprj, setLoadingNewprj] = useState(false)
 
@@ -53,12 +72,14 @@ function FormProject({setNewProj,ErrBox,setErrBox}){
 
         useEffect(async () => {
             if(LoadingNewprj===true){
-                let dataTest = verifyData(refText)
+                let dataTest = verifyData(refText,refDate,refDesc)
                 if(dataTest === true){
                     setErrBox("")
 
                     var data = new FormData()
                         data.append("title",refText.current)
+                        data.append("date",refDate.current.value)
+                        data.append("desc",refDesc.current)
 
                     let response = await fetch(URL_projects,{'method':"POST",'body':data}).catch((err)=>{setErrBox("No network");setLoadingNewprj(false)})
 
@@ -83,10 +104,12 @@ function FormProject({setNewProj,ErrBox,setErrBox}){
     return(
         <div className="newProjContainer">
         <div className="title">
-            New user
+            New project
         </div>
         <div className="newProj">
-            <input ref={refText} className="newPinput" type="text" name="newProjTitle" id="newProjTitle" placeholder="Name" />
+            <input ref={refText} className="newPinput" type="text" name="newProjTitle" id="newProjTitle" placeholder="Titre" />
+            <input ref={refDate} className="newPinput" type="date" name="newProjDate" id="newProjDate" min={minDate()} />
+            <textarea ref={refDesc} className="newPinput" id="newProjDesc" name="Description" rows="4" cols="30" placeholder="Description"></textarea>
             <div id="newPrjErreur">{ErrBox}</div>
             
             <div className="control">
@@ -126,17 +149,19 @@ function LoaderButton({LoadingNewprj,setLoadingNewprj}){
     }
 }
 
-function ProjectList({setProject,NewProj,deleteProj,setTerrain}){
+function ProjectList({setProject,NewProj,deleteProj}){
     var colors = ["#4700D8","#9900F0","#F900BF","#FF85B3","#5E11D4","#D164BD","#A343C6","#8C33CB","#7522CF"]
     
     //fetching projects
     const [Projects,setProjects] = useState(null)
-    const [Temp,setTemp] = useState(null)
+
     useEffect(() => {
         if(Projects === null){
             fetchProjects(setProjects).catch(error => {setProjects(404)})
         }
     }, [Projects])
+
+
     useEffect(async () => {
         let temp = []
 
@@ -148,25 +173,11 @@ function ProjectList({setProject,NewProj,deleteProj,setTerrain}){
                     }})
 
                 setProjects(temp) 
-                setTemp(temp)
             }
         }
     , [deleteProj])
-    useEffect(() => {
-        if(NewProj != null){
-            let t = []
-            Projects.map((prj)=>{
-                t.push(prj)
-            }
-            )
-            t.push(NewProj)
-            setProjects(t)
-            setTemp(t)
-        }
-  
-      }, [NewProj])
-    
-      async function fetchProjects(setProjects){
+
+    async function fetchProjects(setProjects){
         const response = await fetch(URL_projects)
         if (!response.ok) {
             const message = `An error has occured: ${response.status}`;
@@ -176,21 +187,26 @@ function ProjectList({setProject,NewProj,deleteProj,setTerrain}){
     
         const Projects = await response.json()
         setProjects(Projects)
-        setTemp(Projects)
     }
 
-    const SearchVal = (event) => {
-        console.log(event.target.value);
-        let temp = []
-        
-        Projects.forEach(item => {
-          if(item.title.toLowerCase().includes(event.target.value.toLowerCase())){temp.push(item)}})
-          setTemp(temp)
-    }
+    //new project management
+    useEffect(() => {
+        if(NewProj != null){
+            let t = []
+            Projects.map((prj)=>{
+                t.push(prj)
+            }
+            )
+            t.push(NewProj)
+            setProjects(t)
+        }
+  
+      }, [NewProj])
+      
 
 
     //return componement
-    if(Temp === null ){
+    if(Projects === null ){
         return (
             <div className="loaderCentrer">
                 <TailSpin
@@ -205,7 +221,7 @@ function ProjectList({setProject,NewProj,deleteProj,setTerrain}){
                 />
             </div>
         )
-    }else if(Temp === 404){
+    }else if(Projects === 404){
         return(
             <div className="loadingError">
                 Rechargez la page
@@ -214,18 +230,12 @@ function ProjectList({setProject,NewProj,deleteProj,setTerrain}){
     }else{
         return (
             <>
-            <div className="center">
-                <div className="search">
-                    <input type="text" name="Search" id="Search" onChange={SearchVal} placeholder="Recherche"/>
-                    <div className='center'><image src={loupe}></image></div>
-                </div>
-            </div> 
             {
-            Temp.map((task)=>(
-                <div className="Project" key={task.id} onClick={() => {setProject(task.id);setTerrain(task.id)}}>
+            Projects.map((task)=>(
+                <div className="Project" key={task.id} onClick={() => setProject(task.id)}>
                     <div className="box" style={{backgroundColor: colors[task.id % colors.length]}}> </div>
                     <div className="title">{task.title}</div>
-                    <div className="deadline"></div>
+                    <div className="deadline">{task.id}</div>
                 </div>
             ))}
             </>

@@ -3,7 +3,7 @@ import "./css/Navbar.css";
 import Projects from "./Projects";
 import mcsoft from './assets/mcsoft.png'
 
-function Navbar({setProject,deleteProj,setTerrain}){
+function Navbar({setProject,deleteProj}){
 
     return(
         <> 
@@ -13,7 +13,7 @@ function Navbar({setProject,deleteProj,setTerrain}){
             <div className="top">
                 <div className="logo">
                     <img src={mcsoft} alt="logo" />
-                    <div className="title">Agro Better</div>
+                    <div className="title">ToDo</div>
                 </div>
 
                 <label className="burger" htmlFor="burger">
@@ -24,7 +24,7 @@ function Navbar({setProject,deleteProj,setTerrain}){
                 </label>
             </div>
             <span className="separator"></span>
-            <Projects setProject={setProject} deleteProj={deleteProj} setTerrain={setTerrain}/>
+            <Projects setProject={setProject} deleteProj={deleteProj}/>
 
             </nav>
         </>

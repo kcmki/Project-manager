@@ -4,19 +4,19 @@ import "./css/Content/Task.css"
 import { Oval,TailSpin} from 'react-loader-spinner'
 import { useState , useEffect , useRef } from "react";
 import { URL_tasks } from "./URLS";
-
+import {minDate} from "./Projects";
 import done from './assets/done.png'
 
-function PrjctTasks({project,setTerrain}){
+function PrjctTasks({project}){
     const [newTask, setnewTask] = useState(null)
 
     return (
         <div className="tasks">
             <div className="title">
-                Mes terrains
+                My Tasks
             </div>
             <div className="container">
-                <input type="checkbox" name="newtaskOpener" id="newtaskOpener" defaultChecked/>
+                <input type="checkbox" name="newtaskOpener" id="newtaskOpener" />
                 <div className="new">
                     <div className="control">
                         <label htmlFor="newtaskOpener">     
@@ -28,7 +28,7 @@ function PrjctTasks({project,setTerrain}){
                     </div>
                     <TaskForm setnewTask={setnewTask}/>
                 </div>
-                <TaskList project={project} newTask={newTask} setTerrain={setTerrain}/>
+                <TaskList project={project} newTask={newTask}/>
             </div>
         </div>
     )
@@ -37,23 +37,25 @@ function TaskForm({setnewTask}){
     const [errBox,setErrBox] = useState(null)
     const [loadingTask,setloadingTask] = useState(false)
     const refTitre = useRef(null)
-    const refTerre = useRef(null)
-    const refX = useRef(null)
-    const refY = useRef(null)
+    const refDate = useRef(null)
+    const refDesc = useRef(null)
 
-    function verifyData(refTitre,refTerre,refX,refY){
+    function verifyData(refTitre,refDate,refDesc){
         if(refTitre.current.value === ""){
-            return "Le nom ne peut etre vide"
+            return "Le titre ne peut etre vide"
         }else{
-            if(refTerre.current.value === ""){
-                return "La terre doit etre spécifié"
+            if(refDesc.current.value ===""){
+                return " veuillez entrez une description pour la tache"
             }else{
-                if(refX.current.value === "" && refY.current.value === ""){
-                    return "Les coordonnées gps sont nécessaire"
+                if(refDate.current.value ===""){
+                    return "La date est obligatoire"
+                }else if(refDate.current.value < new Date()){
+                    return "la date est invalide"
                 }else{
                     return true
                 }
             }
+
         }
     }
     useEffect(() => {
@@ -67,24 +69,21 @@ function TaskForm({setnewTask}){
     
 
     async function addTask(setnewTask,setErrBox){
-        if(verifyData(refTitre,refTerre,refX,refY) ===true){
+        if(verifyData(refTitre,refDate,refDesc) ===true){
             let data = new FormData()
-                data.append("nom",refTitre.current.value)
-                data.append("type",refTerre.current.value)
-                data.append("X",refX.current.value)
-                data.append("Y",refY.current.value)
+                data.append("titre",refTitre.current.value)
+                data.append("date",refDate.current.value)
+                data.append("desc",refDesc.current.value)
 
             let response = await fetch(URL_tasks,{"method":"POST","body":{data}}).catch(error => setErrBox("No network"))
             if(response.ok){
                 let resp = await response.json()
                 let Task = {
                     "id":resp.id,
-                    "nom":refTitre.current.value,
-                    "terre":refTerre.current.value,
-                    "x":refX.current.value,
-                    "y":refY.current.value,
+                    "titre":refTitre.current.value,
+                    "date":refDate.current.value,
+                    "desc":refDesc.current.value,
                 }
-                console.log(Task)
                 setnewTask(Task)
             }else{
                 setErrBox("Verifier votre connexion internet")
@@ -96,17 +95,9 @@ function TaskForm({setnewTask}){
 
     return(
         <div className="form">
-            <input ref={refTitre} className="formInput" type="text" name="titre" id="taskTitle" placeholder="Nom" />
-            <select ref={refTerre} className="formInput" type="text" name="type" id="taskSoil" placeholder="Terre" >
-                <option value="argileuse">argileuse</option>
-                <option value="calcaire">calcaire</option>
-                <option value="sableuse">sableuse</option>
-                <option value="siliceuse">siliceuse</option>
-                <option value="tourbeuse">tourbeuse</option>
-                <option value="humifère">humifère</option>
-            </select>
-            <input ref={refX} className="formInput" type="number" name="x" id="taskX" placeholder="X" />
-            <input ref={refY} className="formInput" type="number" name="y" id="taskY" placeholder="Y" />
+            <input ref={refTitre} className="formInput" type="text" name="titre" id="taskTitle" placeholder="Titre" />
+            <input ref={refDate} className="formInput" type="date" name="date" id="taskDate" min={minDate()}/>
+            <textarea ref={refDesc} className="formInput" id="taskDesc" name="taskDesc" rows="2" cols="15" placeholder="Description"></textarea>
             <LoaderButton loadingTask={loadingTask} setloadingTask={setloadingTask}/>
             <div className="errorBox" >{errBox}</div>
         </div>
@@ -139,18 +130,28 @@ function LoaderButton({loadingTask,setloadingTask}){
     }
 }
 
-function TaskList({newTask,project,setTerrain}){
-
+function TaskList({newTask,project}){
+    const [Done,setDone] = useState(null)
     const [prjTasks, setprjTasks] = useState(null)
      
     useEffect(async () => {
-        if(prjTasks === null){
+        let temp = []
+
+        if(Done != null){
             let response = await fetch(URL_tasks,/* {"method":"POST",} */)
             if(response.ok){
-                    setprjTasks(await response.json()) 
+                prjTasks.map((task)=>{
+                    if(task.id != Done){
+                      temp.push(task)  
+                    }
                 }
+                )
+                setprjTasks(temp) 
+                
             }
-    }, [prjTasks])
+        }
+        setDone(null)
+    }, [Done])
     
 
 
@@ -216,21 +217,44 @@ function TaskList({newTask,project,setTerrain}){
         return(
             <div className="taskListContainer">
             {prjTasks.map((task)=>(
-                <Task task={task} key={task.id} setTerrain={setTerrain}/>
+                <Task task={task} key={task.id} id={task.id} setDone={setDone} Done={Done}/>
             ))
             }
             </div>
         )
     }
 }
-function Task({task,setTerrain}){
+function Task({task,id,setDone,Done}){
+    const bt1 = useRef(null)
+    const brdrbox = useRef(null)
+    const ctrl2 = useRef(null)
+    function toggleHide(){
+        if(bt1!= null){
+            bt1.current.classList.toggle("hideAnimate")
+            brdrbox.current.classList.toggle("grow")
+            ctrl2.current.classList.toggle("goUp")
+        }
+    }
 
     return(
-        <div className="Task" onClick={()=> {setTerrain(task.id);}}>
+        <div className="Task" >
             <div className="content">
-                <div className="nom">{task.nom}</div>
-                <div className="xy">{task.x},{task.y}</div>
+                <div className="title">Task : {task.body}</div>
+                <div className="date">Date : {task.id}</div>
+                <div className="desc">Desc : {task.body}</div>
+            </div>  
+            <div className="loaderCentrer">
+                <div className="borderBox" ref={brdrbox} >
+                    <div className="control">
+                            <div ref={bt1} className="bt1" onClick={()=>toggleHide()}><img src={done}></img></div>
+                            <div className="control2" ref={ctrl2}>
+                                <LoadingDoneTaskButton id={id} setDone={setDone} Done={Done}/>
+                                <div className="bt2" onClick={()=>toggleHide()}></div>
+                            </div>
+                    </div>
+                </div>
             </div>
+
         </div>
     )
 }

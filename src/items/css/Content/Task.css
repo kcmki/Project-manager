@@ -102,8 +102,6 @@
                         margin: 3px;
                         width: 85%;
                         resize: none;
-                        padding-left: 5px;
-                        padding-right: 5px;
                     }
                     #content .container .tasks .container .new .form button{
                         font-weight: bold;
@@ -138,32 +136,25 @@
             align-items: center;
             flex-direction: column;
 
-            height: calc(100%);
+            height: calc(100vh - 338px);
             width: calc(100%);
             overflow: auto;
 
             transition: 0.5s;
         }
             #content .container .tasks .container #newtaskOpener:checked ~ .taskListContainer{
-                height: calc(100vh - 220px);
+                height: calc(100vh - 488px);
                 overflow: auto;
 
                 transition: 0.5s;
             }
         #content .container .tasks .container .taskListContainer .Task{
-
+            display: grid;
             border-bottom: 3px solid #7f7f7f;
-            width: calc(100% - 10px);
+            width: 90%;
             padding: auto;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 5px;
+            grid-template-columns: auto 40px;
         }
-        #content .container .tasks .container .taskListContainer .Task.activeT{
-            background-color: red;
-        }
-
             #content .container .tasks .container .taskListContainer .Task:last-of-type{
                 border: none;
             }
@@ -175,15 +166,18 @@
 
                     #content .container .tasks .container .taskListContainer .Task .content .title{
                         font-size: 15px;
-                        font-weight: bold;
                         padding:2px;
                     }
-                    #content .container .tasks .container .taskListContainer .Task .content .xy{
+                    #content .container .tasks .container .taskListContainer .Task .content .date{
+                        text-align: center;
+                        font-size: 13px;
+                        padding:2px;
+                    }
+                    #content .container .tasks .container .taskListContainer .Task .content .desc{
                         text-align: center;
                         font-size: 12px;
                         padding:2px;
                         word-break:break-all;
-                        color: #E7E7E7;
                     }
 
 
@@ -282,15 +276,3 @@
                         transform: translate(0px,0px);
                         transition: 0.5s;
                     }
-
-
-
-
-input[type='number'] {
--moz-appearance:textfield;
-}
-
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
--webkit-appearance: none;
-}

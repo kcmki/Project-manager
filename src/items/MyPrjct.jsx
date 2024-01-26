@@ -57,7 +57,7 @@ function MyPrjct({project,setProject,setdeleteProj}){
         return(
             <div className="prjct">
             <div className="title">
-                User
+                Prjct
             </div>
             <div className="container">
                 <div className="loaderCentrer">
@@ -85,12 +85,12 @@ function MyPrjct({project,setProject,setdeleteProj}){
         return(
             <div className="prjct">
             <div className="title">
-                User
+                Prjct
             </div>
             <div className="container">
-                <div className="title">Nom : {Data.title}</div>
-                <div className="date">Nombre utilisation : {Data.Nb}</div>
-                <div className="desc">Profit : {Data.Profit} DA</div>
+                <div className="title">Titre : {Data.title}</div>
+                <div className="date">Date : {Data.id}</div>
+                <div className="desc">Desc : {Data.title}</div>
     
                 <div className="control">
                     <div className="loaderCentrer">

@@ -22,11 +22,10 @@
         grid-template-areas: "title date"
                             "desc desc"
                             "control control";
-        grid-template-rows: 90px auto 40px;
-        grid-template-columns:60% 40%;
+        grid-template-rows: 50px auto 40px;
+        grid-template-columns:auto 100px;
     }
             .loaderCentrer{
-                grid-area: desc;
                 display: flex;
                 width: 100%;
                 height: 100%;
