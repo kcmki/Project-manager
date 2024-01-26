@@ -68,11 +68,11 @@ function Taches({tasks}){
                                 <div className="tache" key={task.id}>
 
                                         <div className="taskinfo">
-                                            <div className="projet">{task.prjId}</div>
-                                            <div className="titre">{task.body}</div>
-                                            <div className="date">{task.id}</div>
+                                            <div className="projet">Project id : {task.prjId}</div>
+                                            <div className="titre">Title : {task.body}</div>
+                                            <div className="date">Date : {task.id}</div>
                                         </div>
-                                    <div className="desc">{task.body}</div>
+                                    <div className="desc">Description : {task.body}</div>
 
                                 </div>
                             )) }

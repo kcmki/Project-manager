@@ -239,9 +239,9 @@ function Task({task,id,setDone,Done}){
     return(
         <div className="Task" >
             <div className="content">
-                <div className="title">{task.body}</div>
-                <div className="date">{task.id}</div>
-                <div className="desc">{task.body}</div>
+                <div className="title">Task : {task.body}</div>
+                <div className="date">Date : {task.id}</div>
+                <div className="desc">Desc : {task.body}</div>
             </div>  
             <div className="loaderCentrer">
                 <div className="borderBox" ref={brdrbox} >

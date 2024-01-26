@@ -88,9 +88,9 @@ function MyPrjct({project,setProject,setdeleteProj}){
                 Prjct
             </div>
             <div className="container">
-                <div className="title">{Data.title}</div>
-                <div className="date">{Data.id}</div>
-                <div className="desc">{Data.title}</div>
+                <div className="title">Titre : {Data.title}</div>
+                <div className="date">Date : {Data.id}</div>
+                <div className="desc">Desc : {Data.title}</div>
     
                 <div className="control">
                     <div className="loaderCentrer">
