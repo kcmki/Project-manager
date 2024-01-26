@@ -1,16 +1,15 @@
 {
   "files": {
-    "main.css": "/Project-manager/static/css/main.da1644f0.css",
-    "main.js": "/Project-manager/static/js/main.396154ab.js",
-    "static/media/mcsoft.png": "/Project-manager/static/media/mcsoft.d18b616273856d8a97a7.png",
-    "static/media/109859.png": "/Project-manager/static/media/109859.d7615c6030c997001061.png",
+    "main.css": "/Project-manager/static/css/main.88eed8e5.css",
+    "main.js": "/Project-manager/static/js/main.d42b07f2.js",
+    "static/media/mcsoft.png": "/Project-manager/static/media/mcsoft.35c2e712a2ee0518463f.png",
     "static/media/trash-can.png": "/Project-manager/static/media/trash-can.823e63b9b991aee970ad.png",
     "index.html": "/Project-manager/index.html",
-    "main.da1644f0.css.map": "/Project-manager/static/css/main.da1644f0.css.map",
-    "main.396154ab.js.map": "/Project-manager/static/js/main.396154ab.js.map"
+    "main.88eed8e5.css.map": "/Project-manager/static/css/main.88eed8e5.css.map",
+    "main.d42b07f2.js.map": "/Project-manager/static/js/main.d42b07f2.js.map"
   },
   "entrypoints": [
-    "static/css/main.da1644f0.css",
-    "static/js/main.396154ab.js"
+    "static/css/main.88eed8e5.css",
+    "static/js/main.d42b07f2.js"
   ]
 }
